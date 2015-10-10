@@ -6,6 +6,9 @@ for TYPO3 CMS 7 based on the system extension fluid_styled_content (FSC).
 ## System Requirements
 Obviously FSC needs to be installed in TYPO3 which is only possible in version 7.5 or higher.
 
+## Installation
+Install the extension and include the static TypoScript. Simple as that.
+
 ## Components of a content element based on FSC
 This extension adds a content element called `fs_slider` to the system. The following steps are necessary to get it up and running:
 
