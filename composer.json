@@ -1,0 +1,30 @@
+{
+  "name": "danielgoerz/fluid-styled-slider",
+  "type": "typo3-cms-extension",
+  "description": "A slider Content Element for TYPO3 CMS based on fluid_styled_content.",
+  "keywords": [
+    "TYPO3",
+    "extension",
+    "fluid"
+  ],
+  "authors": [
+    {
+      "name": "Daniel Goerz",
+      "email": "ervaude@gmail.com",
+      "role": "Developer"
+    }
+  ],
+  "license": "GPL-2.0+",
+  "require": {
+    "typo3/cms-core": "^7.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "DanielGoerz\\FluidStyledSlider\\": "Classes"
+    }
+  },
+  "replace": {
+    "fluid-styled-slider": "self.version",
+    "typo3-ter/fluid-styled-slider": "self.version"
+  }
+}

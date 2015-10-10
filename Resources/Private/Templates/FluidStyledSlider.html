@@ -1,0 +1,12 @@
+<html xmlns:f="http://xsd.helhum.io/ns/typo3/cms-fluid/master/ViewHelpers">
+<div class="fluid-styled-slider clearfix" style="width: {slider.width}px; margin: auto" data-options="{slider.options}">
+	<f:for each="{files}" as="file">
+		<figure class="fluid-styled-slider-item">
+			<f:image image="{file}" height="{data.imageheight}" width="{data.imagewidth}" alt="{file.properties.alt}" title="{file.properties.title}"/>
+			<f:if condition="{file.properties.description}">
+				<figcaption>{file.properties.description}</figcaption>
+			</f:if>
+		</figure>
+	</f:for>
+</div>
+</html>

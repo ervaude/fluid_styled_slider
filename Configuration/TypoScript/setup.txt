@@ -1,0 +1,36 @@
+lib.fluidContent {
+	templateRootPaths {
+		100 = EXT:fluid_styled_slider/Resources/Private/Templates
+	}
+}
+tt_content {
+	fs_slider =< lib.fluidContent
+	fs_slider {
+		templateName = FluidStyledSlider
+		dataProcessing {
+			10 = TYPO3\CMS\Frontend\DataProcessing\FilesProcessor
+			10 {
+				references.fieldName = media
+			}
+			20 = DanielGoerz\FluidStyledSlider\DataProcessing\FluidStyledSliderProcessor
+		}
+	}
+}
+
+[globalVar = LIT:1 = {$plugin.tx_fluidstyledslider.settings.includejQuery}]
+	page.includeJSFooterlibs {
+		jquery = EXT:fluid_styled_slider/Resources/Public/Vendor/jquery/dist/jquery.min.js
+		jquery.disableCompression = 1
+	}
+[global]
+
+page.includeJSFooter {
+	slick = EXT:fluid_styled_slider/Resources/Public/Vendor/slick-carousel/slick/slick.min.js
+	slick.disableCompression = 1
+	fluidStyledSlider = EXT:fluid_styled_slider/Resources/Public/JavaScript/FluidStyledSlider.js
+}
+
+page.includeCSS {
+	slick = EXT:fluid_styled_slider/Resources/Public/Vendor/slick-carousel/slick/slick.css
+	slick-theme = EXT:fluid_styled_slider/Resources/Public/Vendor/slick-carousel/slick/slick-theme.css
+}
