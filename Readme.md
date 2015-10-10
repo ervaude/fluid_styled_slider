@@ -144,3 +144,4 @@ Whatever we write into `$itemContent` will be rendered in the page module inside
 
 ## Miscellaneous
 This extension includes jQuery in `JSFooterLibs``. If you already have jQuery on your site, overwrite this in your TypoScript
+or set the constant `plugin.tx_fluidstyledslider.settings.includejQuery` to 0.
