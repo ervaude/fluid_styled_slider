@@ -29,6 +29,34 @@ To make our content element appear in the wizard for new content elements, we ha
     	show := addToList(fs_slider)
     }
 
+### TCA
+Now we need to tell TYPO3 what fields to show in the backend. Therefore we have to extend the tt_content TCA configuration.
+This stuff is now done in the folder `Configuration/TCA/Override`. Let's add our new CType first (this could also be done in `ext_tables.php`):
+
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTcaSelectItem(
+        'tt_content',
+        'CType',
+        [
+            'LLL:EXT:fluid_styled_slider/Resources/Private/Language/locallang_be.xlf:wizard.title',
+            'fs_slider',
+            'content-image'
+        ],
+        'textmedia',
+        'after'
+    );
+    
+Now we determine what fields to show for our CType:
+
+    $GLOBALS['TCA']['tt_content']['types']['fs_slider'] = [
+        'showitem'         => '
+                --palette--;' . $frontendLanguageFilePrefix . 'palette.general;general,
+                --palette--;' . $languageFilePrefix . 'tt_content.palette.mediaAdjustments;mediaAdjustments,
+                pi_flexform,
+            --div--;' . $customLanguageFilePrefix . 'tca.tab.sliderElements,
+                 media
+        '
+    ];
+
 ### TypoScript
 The new CType `fs_slider` needs a rendering definition. This is rather simple:
 
