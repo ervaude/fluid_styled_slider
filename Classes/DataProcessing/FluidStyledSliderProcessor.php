@@ -14,14 +14,11 @@ namespace DanielGoerz\FluidStyledSlider\DataProcessing;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
 use TYPO3\CMS\Frontend\ContentObject\Exception\ContentRenderingException;
-use TYPO3\CMS\Core\Configuration\FlexForm\FlexFormTools;
 
 /**
  * This data processor will calculate rows, columns and dimensions for a gallery

@@ -16,7 +16,6 @@ namespace DanielGoerz\FluidStyledSlider\Hooks;
 
 use TYPO3\CMS\Backend\View\PageLayoutViewDrawItemHookInterface;
 use TYPO3\CMS\Backend\View\PageLayoutView;
-use TYPO3\CMS\Backend\Utility\BackendUtility;
 
 /**
  * Contains a preview rendering for the page module of CType="fs_slider"
