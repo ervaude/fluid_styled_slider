@@ -4,7 +4,7 @@ lib.fluidContent {
 	}
 }
 tt_content {
-	fs_slider =< lib.fluidContent
+	fs_slider < lib.fluidContent
 	fs_slider {
 		templateName = FluidStyledSlider
 		dataProcessing {

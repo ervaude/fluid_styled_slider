@@ -61,7 +61,7 @@ Now we determine what fields to show for our CType:
 The new CType `fs_slider` needs a rendering definition. This is rather simple:
 
     tt_content {
-    	fs_slider =< lib.fluidContent
+    	fs_slider < lib.fluidContent
     	fs_slider {
     		templateName = FluidStyledSlider
     		dataProcessing {
