@@ -41,9 +41,9 @@ class FsSliderPreviewRenderer implements PageLayoutViewDrawItemHookInterface
         array &$row
     ) {
         if ($row['CType'] === 'fs_slider') {
-            if ($row['media']) {
-                $itemContent .= '<h3>Fluid Styled Slider</h3>';
-                $itemContent .= $parentObject->thumbCode($row, 'tt_content', 'media') . '<br />';
+            $itemContent .= '<h3>Fluid Styled Slider</h3>';
+            if ($row['assets']) {
+                $itemContent .= $parentObject->thumbCode($row, 'tt_content', 'assets') . '<br />';
             }
             $drawItem = false;
         }

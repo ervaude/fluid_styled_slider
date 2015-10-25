@@ -29,7 +29,7 @@ call_user_func(function () {
                 --palette--;' . $languageFilePrefix . 'tt_content.palette.mediaAdjustments;mediaAdjustments,
                 pi_flexform,
             --div--;' . $customLanguageFilePrefix . 'tca.tab.sliderElements,
-                 media
+                 assets
         ',
         'columnsOverrides' => [
             'media' => [
