@@ -53,7 +53,7 @@ Now we determine what fields to show for our CType:
                 --palette--;' . $languageFilePrefix . 'tt_content.palette.mediaAdjustments;mediaAdjustments,
                 pi_flexform,
             --div--;' . $customLanguageFilePrefix . 'tca.tab.sliderElements,
-                 media
+                 assets
         '
     ];
 
@@ -67,7 +67,7 @@ The new CType `fs_slider` needs a rendering definition. This is rather simple:
     		dataProcessing {
     			10 = TYPO3\CMS\Frontend\DataProcessing\FilesProcessor
     			10 {
-    				references.fieldName = media
+    				references.fieldName = assets
     			}
     			20 = DanielGoerz\FluidStyledSlider\DataProcessing\FluidStyledSliderProcessor
     		}
@@ -162,9 +162,9 @@ Our class has to implement the `\TYPO3\CMS\Backend\View\PageLayoutViewDrawItemHo
         public function preProcess(PageLayoutView &$parentObject, &$drawItem, &$headerContent, &$itemContent, array &$row)
         {
             if ($row['CType'] === 'fs_slider') {
-                if ($row['media']) {
-                    $itemContent .= '<h3>Fluid Styled Slider</h3>';
-                    $itemContent .= $parentObject->thumbCode($row, 'tt_content', 'media') . '<br />';
+                $itemContent .= '<h3>Fluid Styled Slider</h3>';
+                if ($row['assets']) {
+                    $itemContent .= $parentObject->thumbCode($row, 'tt_content', 'assets') . '<br />';
                 }
                 $drawItem = false;
             }
