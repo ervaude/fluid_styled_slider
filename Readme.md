@@ -3,6 +3,8 @@
 fluid_styled_slider is an example extension that provides everything to create a custom content element
 for TYPO3 CMS 7 based on the system extension fluid_styled_content (FSC).
 
+A more detailed explanaition of the following can be found at: https://usetypo3.com/custom-fsc-element.html
+
 ## System Requirements
 Obviously FSC needs to be installed in TYPO3 which is only possible in version 7.5 or higher. Since the tt_content field "assets" is used in version 1.1.0 and higher and this field is not present in TYPO3 7.5, only version 1.0.0 of this extension will run on TYPO3 7.5. Newer releases are supposed to work with TYPO3 7 LTS.
 
