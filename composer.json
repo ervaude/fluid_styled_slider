@@ -22,9 +22,5 @@
     "psr-4": {
       "DanielGoerz\\FluidStyledSlider\\": "Classes"
     }
-  },
-  "replace": {
-    "fluid-styled-slider": "self.version",
-    "typo3-ter/fluid-styled-slider": "self.version"
   }
 }
