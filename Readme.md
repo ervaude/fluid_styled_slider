@@ -148,7 +148,7 @@ We probably want some kind of preview for our editors in the page module. There 
 We can simply specify a fluid template to be rendered as preview in PageTSconfig:
 
 ```
-web_layout.tt_content.preview.fs_slider = EXT:fluid_styled_slider/Resources/Private/Templates/Preview/FluidStyledSlider.html
+mod.web_layout.tt_content.preview.fs_slider = EXT:fluid_styled_slider/Resources/Private/Templates/Preview/FluidStyledSlider.html
 ```
 
 This template will receive all fields of the tt_content row directly. So `{header}` contains the header, `{bodytext}` contains the
