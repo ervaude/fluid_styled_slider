@@ -6,17 +6,13 @@ $EM_CONF[$_EXTKEY] = [
     'category'           => 'plugin',
     'shy'                => false,
     'version'            => '1.1.3',
-    'dependencies'       => '',
-    'conflicts'          => '',
     'priority'           => '',
     'loadOrder'          => '',
     'module'             => '',
     'state'              => 'stable',
     'uploadfolder'       => 0,
     'createDirs'         => '',
-    'modify_tables'      => '',
     'clearcacheonload'   => true,
-    'lockType'           => '',
     'author'             => 'Daniel Goerz',
     'author_email'       => 'ervaude@gmail.com',
     'author_company'     => 'Lightwerk GmbH',
@@ -24,7 +20,7 @@ $EM_CONF[$_EXTKEY] = [
     'CGLcompliance_note' => null,
     'constraints'        => [
         'depends'   => [
-            'typo3' => '7.5.0-7.99.99',
+            'typo3' => '>= 7.6.0 < 9.0.0',
             'fluid_styled_content' => ''
         ],
         'conflicts' => [],
