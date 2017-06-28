@@ -76,7 +76,11 @@ The new CType `fs_slider` needs a rendering definition. This is rather simple:
     	}
     }
 
-The `lib.fluidContent` is not much more than the initialization of a `FLUIDCONTENT` object. We just change the template name
+The `lib.fluidContent` is not much more than the initialization of a `FLUIDCONTENT` object. 
+
+**Note that since TYPO3 8LTS `lib.fluidContent` is deprecated and `lib.contentElement` should be used instead!**
+
+We just change the template name
 (make sure to at least add your template path to `lib.fluidContent.templateRootPaths`)
 and specify which dataProcessors we are gonna use. Oh right, dataProcessors.
 
@@ -112,7 +116,7 @@ However, DataProcessors are optional.
 The last piece in the puzzle is the actual template that receives the data processed by all specified DataProcessors in the end.
 This is plain fluid as we know (and love) it:
 
-    <html xmlns:f="http://xsd.helhum.io/ns/typo3/cms-fluid/master/ViewHelpers">
+    <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
     <div class="fluid-styled-slider" style="width: {slider.width}px; margin: auto">
     	<f:for each="{files}" as="file">
     		<figure class="fluid-styled-slider-item">
