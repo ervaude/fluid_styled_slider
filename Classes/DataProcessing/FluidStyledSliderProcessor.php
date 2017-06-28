@@ -23,8 +23,8 @@ use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
 use TYPO3\CMS\Frontend\ContentObject\Exception\ContentRenderingException;
 
 /**
- * This data processor will calculate rows, columns and dimensions for a gallery
- * based on several settings and can be used for f.i. the CType "hf_images"
+ * This data processor will calculate the width of a slider
+ * based on the included images and is used for the CType "fs_slider"
  */
 class FluidStyledSliderProcessor implements DataProcessorInterface
 {

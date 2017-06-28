@@ -17,64 +17,72 @@ This extension adds a content element called `fs_slider` to the system. The foll
 ### PageTSconfig
 To make our content element appear in the wizard for new content elements, we have to add it via PageTSconfig
 
-    mod.wizards.newContentElement.wizardItems.common {
-    	elements {
-    		fs_slider {
-    			iconIdentifier = content-image
-    			title = LLL:EXT:fluid_styled_slider/Resources/Private/Language/locallang_be.xlf:wizard.title
-    			description = LLL:EXT:fluid_styled_slider/Resources/Private/Language/locallang_be.xlf:wizard.description
-    			tt_content_defValues {
-    				CType = fs_slider
-    			}
-    		}
-    	}
-    	show := addToList(fs_slider)
-    }
+```
+mod.wizards.newContentElement.wizardItems.common {
+	elements {
+		fs_slider {
+			iconIdentifier = content-image
+			title = LLL:EXT:fluid_styled_slider/Resources/Private/Language/locallang_be.xlf:wizard.title
+			description = LLL:EXT:fluid_styled_slider/Resources/Private/Language/locallang_be.xlf:wizard.description
+			tt_content_defValues {
+				CType = fs_slider
+			}
+		}
+	}
+	show := addToList(fs_slider)
+}
+```
 
 ### TCA
 Now we need to tell TYPO3 what fields to show in the backend. Therefore we have to extend the tt_content TCA configuration.
-This stuff is now done in the folder `Configuration/TCA/Override`. Let's add our new CType first (this could also be done in `ext_tables.php`):
+This stuff is done in the folder `Configuration/TCA/Override`. Let's add our new CType first (this could also be done in `ext_tables.php`):
 
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTcaSelectItem(
-        'tt_content',
-        'CType',
-        [
-            'LLL:EXT:fluid_styled_slider/Resources/Private/Language/locallang_be.xlf:wizard.title',
-            'fs_slider',
-            'content-image'
-        ],
-        'textmedia',
-        'after'
-    );
+```php
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTcaSelectItem(
+    'tt_content',
+    'CType',
+    [
+        'LLL:EXT:fluid_styled_slider/Resources/Private/Language/locallang_be.xlf:wizard.title',
+        'fs_slider',
+        'content-image'
+    ],
+    'textmedia',
+    'after'
+);
+```
     
 Now we determine what fields to show for our CType:
 
-    $GLOBALS['TCA']['tt_content']['types']['fs_slider'] = [
-        'showitem'         => '
-                --palette--;' . $frontendLanguageFilePrefix . 'palette.general;general,
-                --palette--;' . $languageFilePrefix . 'tt_content.palette.mediaAdjustments;mediaAdjustments,
-                pi_flexform,
-            --div--;' . $customLanguageFilePrefix . 'tca.tab.sliderElements,
-                 assets
-        '
-    ];
+```php
+$GLOBALS['TCA']['tt_content']['types']['fs_slider'] = [
+    'showitem'         => '
+            --palette--;' . $frontendLanguageFilePrefix . 'palette.general;general,
+            --palette--;' . $languageFilePrefix . 'tt_content.palette.mediaAdjustments;mediaAdjustments,
+            pi_flexform,
+        --div--;' . $customLanguageFilePrefix . 'tca.tab.sliderElements,
+             assets
+    '
+];
+```
 
 ### TypoScript
 The new CType `fs_slider` needs a rendering definition. This is rather simple:
 
-    tt_content {
-    	fs_slider < lib.fluidContent
-    	fs_slider {
-    		templateName = FluidStyledSlider
-    		dataProcessing {
-    			10 = TYPO3\CMS\Frontend\DataProcessing\FilesProcessor
-    			10 {
-    				references.fieldName = assets
-    			}
-    			20 = DanielGoerz\FluidStyledSlider\DataProcessing\FluidStyledSliderProcessor
-    		}
-    	}
-    }
+```
+tt_content {
+	fs_slider < lib.fluidContent
+	fs_slider {
+		templateName = FluidStyledSlider
+		dataProcessing {
+			10 = TYPO3\CMS\Frontend\DataProcessing\FilesProcessor
+			10 {
+				references.fieldName = assets
+			}
+			20 = DanielGoerz\FluidStyledSlider\DataProcessing\FluidStyledSliderProcessor
+		}
+	}
+}
+```
 
 The `lib.fluidContent` is not much more than the initialization of a `FLUIDCONTENT` object. 
 
@@ -90,25 +98,27 @@ be present in the template. The `TYPO3\CMS\Frontend\DataProcessing\FilesProcesso
 for instance resolves all attached media elements for us, so we can access the FileReference objects in the view.
 `DanielGoerz\FluidStyledSlider\DataProcessing\FluidStyledSliderProcessor` is a custom processor to illustrate how this works.
 
-    class FluidStyledSliderProcessor implements DataProcessorInterface
+```php
+class FluidStyledSliderProcessor implements DataProcessorInterface
+{
+    /**
+     * Process data for the CType "fs_slider"
+     *
+     * @param ContentObjectRenderer $cObj The content object renderer, which contains data of the content element
+     * @param array $contentObjectConfiguration The configuration of Content Object
+     * @param array $processorConfiguration The configuration of this processor
+     * @param array $processedData Key/value store of processed data (e.g. to be passed to a Fluid View)
+     * @return array the processed data as key/value store
+     * @throws ContentRenderingException
+     */
+    public function process(ContentObjectRenderer $cObj, array $contentObjectConfiguration, array $processorConfiguration, array $processedData)
     {
-        /**
-         * Process data for the CType "fs_slider"
-         *
-         * @param ContentObjectRenderer $cObj The content object renderer, which contains data of the content element
-         * @param array $contentObjectConfiguration The configuration of Content Object
-         * @param array $processorConfiguration The configuration of this processor
-         * @param array $processedData Key/value store of processed data (e.g. to be passed to a Fluid View)
-         * @return array the processed data as key/value store
-         * @throws ContentRenderingException
-         */
-        public function process(ContentObjectRenderer $cObj, array $contentObjectConfiguration, array $processorConfiguration, array $processedData)
-        {
-            // Content of $processedData will be available in the template
-            // It can be processed here to your needs.
-            $processedData['slider']['width'] = 1000;
-            return $processedData;
-        }
+        // Content of $processedData will be available in the template
+        // It can be processed here to your needs.
+        $processedData['slider']['width'] = 1000;
+        return $processedData;
+    }
+```
 
 However, DataProcessors are optional.
 
@@ -116,6 +126,7 @@ However, DataProcessors are optional.
 The last piece in the puzzle is the actual template that receives the data processed by all specified DataProcessors in the end.
 This is plain fluid as we know (and love) it:
 
+```
     <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
     <div class="fluid-styled-slider" style="width: {slider.width}px; margin: auto">
     	<f:for each="{files}" as="file">
@@ -128,6 +139,7 @@ This is plain fluid as we know (and love) it:
     	</f:for>
     </div>
     </html>
+```
 
 Of course we can use Layouts and Partials here as well. Note how `{data}` contains the tt_content row from the rendered
 content element. `{files}` is added by the `TYPO3\CMS\Frontend\DataProcessing\FilesProcessor` and contains the attached media
@@ -139,7 +151,9 @@ We probably want some kind of preview for our editors in the page module. There 
 #### Fluid template via PageTSconfig
 We can simply specify a fluid template to be rendered as preview in PageTSconfig:
 
-    web_layout.tt_content.preview.fs_slider = EXT:fluid_styled_slider/Resources/Private/Templates/Preview/FluidStyledSlider.html
+```
+mod.web_layout.tt_content.preview.fs_slider = EXT:fluid_styled_slider/Resources/Private/Templates/Preview/FluidStyledSlider.html
+```
 
 This template will receive all fields of the tt_content row directly. So `{header}` contains the header, `{bodytext}` contains the
 bodytext and so on.
@@ -148,34 +162,38 @@ bodytext and so on.
 If we want to do more sophisticated stuff like getting child records resolved, we can register to the `tt_content_drawItem` hook
 like this:
 
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['tt_content_drawItem']['fluid_styled_slider']
+```php
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['tt_content_drawItem']['fluid_styled_slider']
         = \DanielGoerz\FluidStyledSlider\Hooks\FsSliderPreviewRenderer::class;
+```
 
 Our class has to implement the `\TYPO3\CMS\Backend\View\PageLayoutViewDrawItemHookInterface`.
 
-    class FsSliderPreviewRenderer implements PageLayoutViewDrawItemHookInterface
+```php
+class FsSliderPreviewRenderer implements PageLayoutViewDrawItemHookInterface
+{
+    /**
+     * Preprocesses the preview rendering of a content element of type "fs_slider"
+     *
+     * @param \TYPO3\CMS\Backend\View\PageLayoutView $parentObject Calling parent object
+     * @param bool $drawItem Whether to draw the item using the default functionality
+     * @param string $headerContent Header content
+     * @param string $itemContent Item content
+     * @param array $row Record row of tt_content
+     * @return void
+     */
+    public function preProcess(PageLayoutView &$parentObject, &$drawItem, &$headerContent, &$itemContent, array &$row)
     {
-        /**
-         * Preprocesses the preview rendering of a content element of type "fs_slider"
-         *
-         * @param \TYPO3\CMS\Backend\View\PageLayoutView $parentObject Calling parent object
-         * @param bool $drawItem Whether to draw the item using the default functionality
-         * @param string $headerContent Header content
-         * @param string $itemContent Item content
-         * @param array $row Record row of tt_content
-         * @return void
-         */
-        public function preProcess(PageLayoutView &$parentObject, &$drawItem, &$headerContent, &$itemContent, array &$row)
-        {
-            if ($row['CType'] === 'fs_slider') {
-                $itemContent .= '<h3>Fluid Styled Slider</h3>';
-                if ($row['assets']) {
-                    $itemContent .= $parentObject->thumbCode($row, 'tt_content', 'assets') . '<br />';
-                }
-                $drawItem = false;
+        if ($row['CType'] === 'fs_slider') {
+            $itemContent .= '<h3>Fluid Styled Slider</h3>';
+            if ($row['assets']) {
+                $itemContent .= $parentObject->thumbCode($row, 'tt_content', 'assets') . '<br />';
             }
+            $drawItem = false;
         }
     }
+}
+```
 
 Whatever we write into `$itemContent` will be rendered in the page module inside our content element. 
 
