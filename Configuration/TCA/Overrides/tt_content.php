@@ -46,4 +46,11 @@ call_user_func(function () {
         ]
     ];
 
+    // Add a flexform to the fs_slider CType
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue(
+        '',
+        'FILE:EXT:fluid_styled_slider/Configuration/FlexForms/fs_slider_flexform.xml',
+        'fs_slider'
+    );
+
 });
