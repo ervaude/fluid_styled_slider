@@ -14,8 +14,10 @@ namespace DanielGoerz\FluidStyledSlider\DataProcessing;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Service\FlexFormService;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
 use TYPO3\CMS\Frontend\ContentObject\Exception\ContentRenderingException;
@@ -43,7 +45,6 @@ class FluidStyledSliderProcessor implements DataProcessorInterface
         array $processorConfiguration,
         array $processedData
     ) {
-        $options = array();
         // Calculating the total width of the slider
         $sliderWidth = 0;
         if ((int)$processedData['data']['imagewidth'] > 0) {
@@ -76,8 +77,28 @@ class FluidStyledSliderProcessor implements DataProcessorInterface
         if (!$fileObject->hasProperty('crop') || empty($fileObject->getProperty('crop'))) {
             return $fileObject->getProperty('width');
         }
-        $croppingConfiguration = json_decode($fileObject->getProperty('crop'), true);
-        return (int)$croppingConfiguration['width'];
+
+        $cropString = $fileObject->getProperty('crop');
+        // TYPO3 7LTS
+        $croppingConfiguration = json_decode($cropString, true);
+        if (!empty($croppingConfiguration['width'])) {
+            return (int)$croppingConfiguration['width'];
+        }
+
+        // TYPO3 8LTS
+        $cropVariantCollection = CropVariantCollection::create((string)$cropString);
+        $width = 0;
+        foreach (array_keys($croppingConfiguration) as $cropVariant) {
+            $cropArea = $cropVariantCollection->getCropArea($cropVariant);
+            if ($cropArea->isEmpty()) {
+                continue;
+            }
+            $cropResult = json_decode((string)$cropArea->makeAbsoluteBasedOnFile($fileObject), true);
+            if (!empty($cropResult['width']) && (int)$cropResult['width'] > $width) {
+                $width = (int)$cropResult['width'];
+            }
+        }
+        return $width;
     }
 
     /**
@@ -87,11 +108,18 @@ class FluidStyledSliderProcessor implements DataProcessorInterface
     protected function getOptionsFromFlexFormData(array $row)
     {
         $options = [];
-        $flexFormAsArray = GeneralUtility::xml2array($row['pi_flexform']);
-        if (!empty($flexFormAsArray['data']['sDEF']['lDEF']) && is_array($flexFormAsArray['data']['sDEF']['lDEF'])) {
-            foreach ($flexFormAsArray['data']['sDEF']['lDEF'] as $optionKey => $optionValue) {
-                $optionParts = explode('.', $optionKey);
-                $options[array_pop($optionParts)] = $optionValue['vDEF'] === '1' ? true : $optionValue['vDEF'];
+        $flexFormService = GeneralUtility::makeInstance(FlexFormService::class);
+        $flexFormAsArray = $flexFormService->convertFlexFormContentToArray($row['pi_flexform']);
+        foreach ($flexFormAsArray['options'] as $optionKey => $optionValue) {
+            switch ($optionValue) {
+                case '1':
+                    $options[$optionKey] = true;
+                    break;
+                case '0':
+                    $options[$optionKey] = false;
+                    break;
+                default:
+                    $options[$optionKey] = $optionValue;
             }
         }
         return $options;
