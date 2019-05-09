@@ -1,15 +1,21 @@
 # About this extension
 
 fluid_styled_slider is an example extension that provides everything to create a custom content element
-for TYPO3 CMS 7 based on the system extension fluid_styled_content (FSC).
+for TYPO3 CMS 8 and 9 based on the system extension fluid_styled_content (FSC).
 
-A more detailed explanaition of the following can be found at: https://usetypo3.com/custom-fsc-element.html
+A more detailed explanation of the following can be found at: https://usetypo3.com/custom-fsc-element.html
 
 ## System Requirements
-Obviously FSC needs to be installed in TYPO3 which is only possible in version 7.5 or higher. Since the tt_content field "assets" is used in version 1.1.0 and higher and this field is not present in TYPO3 7.5, only version 1.0.0 of this extension will run on TYPO3 7.5. Newer releases are supposed to work with TYPO3 7 LTS.
+Obviously FSC needs to be installed in TYPO3 which is only possible in version 7.6 or higher.
+The extension is compatible with TYPO3 8LTS and TYPO3 9LTS. For versions compatible with
+TYPO3 7LTS check out the 1.x Tags.
 
 ## Installation
-Install the extension and include the static TypoScript. Simple as that.
+Install the extension and include the static TypoScript.
+
+**The TypoScript includes JavaScript and CSS from external
+libraries that can be installed by running `yarn install` in the extension folder. This is not considered a good
+practice but is sufficient for an example extension like this one.**
 
 ## Components of a content element based on FSC
 This extension adds a content element called `fs_slider` to the system. The following steps are necessary to get it up and running:
@@ -70,7 +76,7 @@ The new CType `fs_slider` needs a rendering definition. This is rather simple:
 
 ```
 tt_content {
-	fs_slider < lib.fluidContent
+	fs_slider < lib.contentElement
 	fs_slider {
 		templateName = FluidStyledSlider
 		dataProcessing {
@@ -84,12 +90,12 @@ tt_content {
 }
 ```
 
-The `lib.fluidContent` is not much more than the initialization of a `FLUIDCONTENT` object. 
+The `lib.contentElement` is not much more than the initialization of a `FLUIDCONTENT` object. 
 
-**Note that since TYPO3 8LTS `lib.fluidContent` is deprecated and `lib.contentElement` should be used instead!**
+**Note that before TYPO3 8LTS `lib.contentElement` was called `lib.fluidContent`!**
 
 We just change the template name
-(make sure to at least add your template path to `lib.fluidContent.templateRootPaths`)
+(make sure to at least add your template path to `lib.contentElement.templateRootPaths`)
 and specify which dataProcessors we are gonna use. Oh right, dataProcessors.
 
 ### DataProcessors
