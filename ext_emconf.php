@@ -5,7 +5,7 @@ $EM_CONF[$_EXTKEY] = [
     'description'        => 'A slider Content Element based on fluid_styled_content.',
     'category'           => 'plugin',
     'shy'                => false,
-    'version'            => '1.2.0',
+    'version'            => '2.0.0',
     'priority'           => '',
     'loadOrder'          => '',
     'module'             => '',
@@ -20,7 +20,7 @@ $EM_CONF[$_EXTKEY] = [
     'CGLcompliance_note' => null,
     'constraints'        => [
         'depends'   => [
-            'typo3' => '>= 7.6.0 < 9.0.0',
+            'typo3' => '>= 8.7.0 < 9.5.99',
             'fluid_styled_content' => ''
         ],
         'conflicts' => [],
