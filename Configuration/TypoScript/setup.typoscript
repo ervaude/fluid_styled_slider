@@ -1,10 +1,10 @@
-lib.fluidContent {
+lib.contentElement {
 	templateRootPaths {
 		100 = EXT:fluid_styled_slider/Resources/Private/Templates
 	}
 }
 tt_content {
-	fs_slider < lib.fluidContent
+	fs_slider < lib.contentElement
 	fs_slider {
 		templateName = FluidStyledSlider
 		dataProcessing {
