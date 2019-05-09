@@ -16,8 +16,8 @@ namespace DanielGoerz\FluidStyledSlider\DataProcessing;
 
 use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\FileInterface;
+use TYPO3\CMS\Core\Service\FlexFormService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Service\FlexFormService;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
 use TYPO3\CMS\Frontend\ContentObject\Exception\ContentRenderingException;
@@ -79,11 +79,7 @@ class FluidStyledSliderProcessor implements DataProcessorInterface
         }
 
         $cropString = $fileObject->getProperty('crop');
-        // TYPO3 7LTS
         $croppingConfiguration = json_decode($cropString, true);
-        if (!empty($croppingConfiguration['width'])) {
-            return (int)$croppingConfiguration['width'];
-        }
 
         // TYPO3 8LTS
         $cropVariantCollection = CropVariantCollection::create((string)$cropString);
