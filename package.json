@@ -1,0 +1,7 @@
+{
+  "private": true,
+  "name": "fluid_styled_slider",
+  "dependencies": {
+    "slick-carousel": "~1.5.8"
+  }
+}
